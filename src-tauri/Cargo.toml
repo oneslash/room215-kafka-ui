@@ -1,0 +1,20 @@
+[package]
+name = "room215-kafka-ui"
+version = "0.1.0"
+description = "Simple Kafka UI application"
+authors = ["Sardorbek Pulatov <sardo@hey.com>"]
+license = "MIT"
+repository = "https://github.com/oneslash/room215-kafka-ui"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "1.4", features = [] }
+
+[dependencies]
+tauri = { version = "1.4", features = ["shell-open"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rdkafka = { version = "0.33.2", features = ["sasl", "ssl-vendored"] }
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]
