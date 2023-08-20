@@ -14,12 +14,12 @@ struct MyData {
 }
 
 #[tauri::command]
-fn list_topics(bootstrap: &str, configs: &str) -> Vec<String> {
+fn list_topics(bootstrap: &str, configs: &str) -> Result<Vec<String>, String> {
     CLIENT.get().unwrap().list_topics(bootstrap, configs)
 }
 
 #[tauri::command]
-fn login_ping(bootstrap: &str, configs: &str) -> bool {
+fn login_ping(bootstrap: &str, configs: &str) -> Result<bool, String> {
     CLIENT.get().unwrap().ping(bootstrap, configs)
 }
 

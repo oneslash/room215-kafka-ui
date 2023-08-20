@@ -1,4 +1,4 @@
-use rdkafka::{consumer::{StreamConsumer, BaseConsumer, Consumer}, ClientConfig, config::FromClientConfig};
+use rdkafka::consumer::{BaseConsumer, Consumer};
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct KafkaClient {}
@@ -8,7 +8,7 @@ impl KafkaClient {
         KafkaClient {}
     }
 
-    pub fn create_client_config(&self, brokers: &str, configs: &str) -> Result<BaseConsumer, String> {
+    fn create_client_config(&self, brokers: &str, configs: &str) -> Result<BaseConsumer, String> {
         let mut config = rdkafka::ClientConfig::new();
         let configs = configs.trim().split("\n").collect::<Vec<&str>>();
         for c in configs {
@@ -20,24 +20,24 @@ impl KafkaClient {
             config.set(kv[0], kv[1]);
         }
         config.set("bootstrap.servers", brokers);
-        
+
         Ok(config.create::<BaseConsumer>().unwrap())
     }
 
-    pub fn ping(&self, bootstrap: &str, configs: &str) -> bool {
-        let client = self.create_client_config(bootstrap, configs).unwrap();
+    pub fn ping(&self, bootstrap: &str, configs: &str) -> Result<bool, String>{
+        let client = match self.create_client_config(bootstrap, configs) {
+            Ok(c) => c,
+            Err(e) => return Err(format!("Error: {}", e)),
+        };
         let dur = std::time::Duration::from_millis(1000);
-        let res = client.fetch_metadata(Some("topic_0"), dur);
+        let res = client.fetch_metadata(None, dur);
         match res {
-            Ok(_) => true,
-            Err(e) => {
-                println!("Error: {}", e);
-                false
-            }
+            Ok(_) => Ok(true),
+            Err(e) => Err(format!("Error: {}", e)),
         }
     }
 
-    pub fn list_topics(&self, bootstrap: &str, configs: &str) -> Vec<String> {
+    pub fn list_topics(&self, bootstrap: &str, configs: &str) -> Result<Vec<String>, String> {
         let client = self.create_client_config(bootstrap, configs).unwrap();
         let dur = std::time::Duration::from_millis(1000);
         let res = client.fetch_metadata(None, dur);
@@ -47,11 +47,10 @@ impl KafkaClient {
                 for topic in metadata.topics() {
                     topics.push(topic.name().to_string());
                 }
-                topics
-            },
+                Ok(topics)
+            }
             Err(e) => {
-                println!("Error: {}", e);
-                Vec::new()
+                Err(format!("Error: {}", e))
             }
         }
     }

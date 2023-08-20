@@ -1,17 +1,25 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/tauri";
-  import { saveToLocalStorage, getFromLocalStorage } from "../lib/local-storage"
+  import {
+    saveToLocalStorage,
+  } from "../lib/local-storage";
 
-  let bootstrap  = "";
+  let bootstrap = "";
   let configs = "";
-  
+  let error = "";
+
   async function login() {
-    let is_logged_in = await invoke("login_ping", { bootstrap, configs });
-    if (is_logged_in) {
-      saveToLocalStorage("bootstrap", bootstrap);
-      saveToLocalStorage("configs", configs);
-      window.location.href = "/ui/";
-    }
+    let is_logged_in = false;
+    await invoke("login_ping", { bootstrap, configs })
+      .then((res: boolean) => {
+        is_logged_in = res;
+        saveToLocalStorage("bootstrap", bootstrap);
+        saveToLocalStorage("configs", configs);
+        location.href = "/ui";
+      })
+      .catch((err: string) => {
+        error = err;
+      });
   }
 </script>
 
@@ -62,6 +70,16 @@
         >
       </div>
     </form>
+    {#if error != ""}
+      <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4 mt-2">
+        <strong class="block font-medium text-red-800">
+          Something went wrong
+        </strong>
+
+        <p class="mt-2 text-sm text-red-700">
+          {error}
+        </p>
+      </div>
+    {/if}
   </div>
 </div>
-
