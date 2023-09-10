@@ -5,5 +5,8 @@
 	],
 	"/ui": [
 		"src/routes/+layout.server.ts"
+	],
+	"/ui/topic/[slug]": [
+		"src/routes/+layout.server.ts"
 	]
 }

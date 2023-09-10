@@ -9,10 +9,8 @@
   let error = "";
 
   async function login() {
-    let is_logged_in = false;
     await invoke("login_ping", { bootstrap, configs })
-      .then((res: boolean) => {
-        is_logged_in = res;
+      .then((_res: boolean) => {
         saveToLocalStorage("bootstrap", bootstrap);
         saveToLocalStorage("configs", configs);
         location.href = "/ui";
