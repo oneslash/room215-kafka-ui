@@ -7,5 +7,8 @@ export default {
   preprocess: vitePreprocess(),
   kit: {
     adapter: adapter(),
+  },
+  prerender: {
+    crawl: false
   }
 };

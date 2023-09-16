@@ -384,6 +384,7 @@ function make_trackable(url, callback) {
   return tracked;
 }
 function disable_hash(url) {
+  allow_nodejs_console_log(url);
   Object.defineProperty(url, "hash", {
     get() {
       throw new Error(
@@ -393,12 +394,20 @@ function disable_hash(url) {
   });
 }
 function disable_search(url) {
+  allow_nodejs_console_log(url);
   for (const property of ["search", "searchParams"]) {
     Object.defineProperty(url, property, {
       get() {
         throw new Error(`Cannot access url.${property} on a page with prerendering enabled`);
       }
     });
+  }
+}
+function allow_nodejs_console_log(url) {
+  {
+    url[Symbol.for("nodejs.util.inspect.custom")] = (depth, opts, inspect) => {
+      return inspect(new URL(url), opts);
+    };
   }
 }
 const DATA_SUFFIX = "/__data.json";

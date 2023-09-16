@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" class="h-full">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+		<link rel="modulepreload" href="../_app/immutable/entry/start.d80d5016.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/scheduler.e903ca9d.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/singletons.2b2f2c9a.js">
+		<link rel="modulepreload" href="../_app/immutable/entry/app.9123bc91.js">
+		<link rel="modulepreload" href="../_app/immutable/chunks/index.1b9b1e3c.js">
+  <title>Tauri + Svelte + TS</title>
+</head>
+
+<body class="h-full">
+  
+			<script>
+				{
+					__sveltekit_1em8oc4 = {
+						base: new URL("..", location).pathname.slice(0, -1),
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../_app/immutable/entry/start.d80d5016.js"),
+						import("../_app/immutable/entry/app.9123bc91.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element);
+					});
+				}
+			</script>
+		
+</body>
+
+</html>

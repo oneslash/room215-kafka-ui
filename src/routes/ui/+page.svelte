@@ -71,7 +71,7 @@
                   <td
                     class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                   >
-                    <a class="text-blue-500 hover:text-blue-700" href="/ui/topic/{topic.name}"
+                    <a class="text-blue-500 hover:text-blue-700" href="/ui/topic/?topic={topic.name}"
                       >View</a
                     >
                   </td>

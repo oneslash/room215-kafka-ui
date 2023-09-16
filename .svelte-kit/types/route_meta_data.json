@@ -4,9 +4,17 @@
 		"src/routes/+layout.server.ts"
 	],
 	"/ui": [
+		"src/routes/ui/+layout.server.ts",
+		"src/routes/+layout.server.ts",
+		"src/routes/ui/+layout.server.ts",
 		"src/routes/+layout.server.ts"
 	],
-	"/ui/topic/[slug]": [
+	"/ui/topic": [
+		"src/routes/ui/topic/+layout.server.ts",
+		"src/routes/ui/+layout.server.ts",
+		"src/routes/+layout.server.ts",
+		"src/routes/ui/topic/+layout.server.ts",
+		"src/routes/ui/+layout.server.ts",
 		"src/routes/+layout.server.ts"
 	]
 }
